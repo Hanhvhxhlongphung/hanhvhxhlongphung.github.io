@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cổng thông tin cá nhân về nội vụ, an sinh xã hội, người có công và chuyển đổi số.">
+  <title>Cổng thông tin cá nhân</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#trang-chu">
+        <span class="brand-mark">LP</span>
+        <span>
+          <strong>CỔNG THÔNG TIN CÁ NHÂN</strong>
+          <small>Nội vụ • An sinh xã hội • Người có công • Chuyển đổi số</small>
+        </span>
+      </a>
+      <button class="menu-toggle" aria-label="Mở menu">☰</button>
+      <nav class="main-nav">
+        <a href="#trang-chu">Trang chủ</a>
+        <a href="#chuyen-muc">Chuyên mục</a>
+        <a href="#van-ban">Văn bản</a>
+        <a href="#bieu-mau">Biểu mẫu</a>
+        <a href="#cong-cu">Công cụ</a>
+        <a href="#tai-lieu">Tài liệu</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="trang-chu">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">THƯ VIỆN CÁ NHÂN</span>
+          <h1>Kho tài liệu và công cụ hành chính</h1>
+          <p class="hero-text">
+            Tổng hợp văn bản, biểu mẫu, hướng dẫn nghiệp vụ và công cụ hỗ trợ
+            công việc nội vụ, an sinh xã hội, người có công và chuyển đổi số.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#chuyen-muc">Khám phá nội dung</a>
+            <a class="btn secondary" href="#cong-cu">Xem công cụ</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-top">
+            <span class="status-dot"></span>
+            <span>HỆ THỐNG ĐANG HOẠT ĐỘNG</span>
+          </div>
+          <div class="hero-stat">
+            <strong id="documentCount">12</strong>
+            <span>tài liệu mẫu</span>
+          </div>
+          <div class="hero-stat">
+            <strong>04</strong>
+            <span>nhóm chuyên môn</span>
+          </div>
+          <div class="hero-note">Bạn có thể thay toàn bộ số liệu và nội dung mẫu bằng dữ liệu của mình.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="chuyen-muc">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">CHUYÊN MỤC</span>
+            <h2>Nội dung chính</h2>
+          </div>
+          <p>Thiết kế tối giản, dễ mở rộng thêm chuyên mục.</p>
+        </div>
+        <div class="category-grid">
+          <a class="category-card" href="#van-ban" data-search="nội vụ tổ chức cán bộ cải cách hành chính">
+            <span class="icon">01</span><h3>Nội vụ</h3><p>Tổ chức bộ máy, cán bộ, cải cách hành chính, thi đua và các nội dung liên quan.</p>
+          </a>
+          <a class="category-card" href="#van-ban" data-search="người có công thương binh liệt sĩ chính sách">
+            <span class="icon">02</span><h3>Người có công</h3><p>Hồ sơ, biểu mẫu, quy trình và tài liệu phục vụ công tác người có công.</p>
+          </a>
+          <a class="category-card" href="#van-ban" data-search="an sinh xã hội bảo trợ xã hội trợ cấp">
+            <span class="icon">03</span><h3>An sinh xã hội</h3><p>Bảo trợ xã hội, trợ giúp xã hội và các chính sách an sinh tại cơ sở.</p>
+          </a>
+          <a class="category-card" href="#cong-cu" data-search="chuyển đổi số công nghệ công cụ số">
+            <span class="icon">04</span><h3>Chuyển đổi số</h3><p>Công cụ số, hướng dẫn công nghệ, dữ liệu và các sáng kiến phục vụ công việc.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section muted" id="van-ban">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow">TRA CỨU</span><h2>Kho văn bản & tài liệu</h2></div>
+          <div class="search-box">
+            <input id="searchInput" type="search" placeholder="Tìm theo tên tài liệu..." aria-label="Tìm tài liệu">
+          </div>
+        </div>
+        <div id="documentGrid" class="document-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="bieu-mau">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow">BIỂU MẪU</span><h2>Biểu mẫu thường dùng</h2></div>
+          <p>Các file bên dưới là vị trí mẫu để bạn thay bằng file Word/PDF thật.</p>
+        </div>
+        <div class="template-list">
+          <div class="template-item"><span>01</span><div><h3>Giấy đề nghị thanh toán</h3><p>Mẫu dùng cho hồ sơ thanh toán kinh phí.</p></div><button onclick="showNotice('Bạn hãy đặt file Word/PDF vào thư mục tai-lieu rồi sửa đường dẫn trong script.js.')">Xem mẫu</button></div>
+          <div class="template-item"><span>02</span><div><h3>Phiếu đề xuất</h3><p>Mẫu đề xuất mua sắm, tổ chức hoạt động, nhiệm vụ.</p></div><button onclick="showNotice('Bạn có thể thay nút này bằng liên kết đến file .docx.')">Xem mẫu</button></div>
+          <div class="template-item"><span>03</span><div><h3>Báo cáo hành chính</h3><p>Mẫu báo cáo theo nội dung và kỳ báo cáo.</p></div><button onclick="showNotice('Đây là vị trí để liên kết đến file báo cáo của bạn.')">Xem mẫu</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section muted" id="cong-cu">
+      <div class="container">
+        <div class="section-heading">
+          <div><span class="eyebrow">TIỆN ÍCH</span><h2>Công cụ nhanh</h2></div>
+          <p>Phiên bản đầu tiên chạy hoàn toàn trên trình duyệt.</p>
+        </div>
+        <div class="tools-grid">
+          <div class="tool-card">
+            <h3>Máy tính nhanh</h3>
+            <p>Tính tổng các khoản tiền, hỗ trợ nhập nhiều dòng.</p>
+            <input id="calcInput" placeholder="Ví dụ: 5000000 + 1000000">
+            <button class="btn primary small" onclick="calculate()">Tính</button>
+            <div id="calcResult" class="result">Kết quả: —</div>
+          </div>
+          <div class="tool-card">
+            <h3>Ngày hiện tại</h3>
+            <p>Hiển thị ngày theo định dạng Việt Nam.</p>
+            <div id="today" class="big-result"></div>
+          </div>
+          <div class="tool-card">
+            <h3>Ghi chú nhanh</h3>
+            <p>Ghi chú tạm thời ngay trên trình duyệt của bạn.</p>
+            <textarea id="notes" rows="5" placeholder="Nhập ghi chú..."></textarea>
+            <button class="btn secondary small" onclick="saveNotes()">Lưu ghi chú</button>
+            <span id="saveStatus" class="save-status"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tai-lieu">
+      <div class="container download-panel">
+        <div>
+          <span class="eyebrow">TẢI XUỐNG</span>
+          <h2>Khu vực tài liệu cá nhân</h2>
+          <p>Đặt các file Word, Excel, PDF vào thư mục <strong>tai-lieu</strong> rồi thêm liên kết tại đây.</p>
+        </div>
+        <div class="download-example">
+          <div><strong>📁 tai-lieu/</strong></div>
+          <div>├── bieu-mau/</div>
+          <div>├── van-ban/</div>
+          <div>└── huong-dan/</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-wrap">
+      <div><strong>CỔNG THÔNG TIN CÁ NHÂN</strong><p>Website được xây dựng bằng HTML, CSS và JavaScript.</p></div>
+      <div><span id="year"></span> • Phiên bản 1.0</div>
+    </div>
+  </footer>
+
+  <div id="notice" class="notice" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
