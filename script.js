@@ -1,62 +1,21 @@
-const documents = [
-  {tag:"NỘI VỤ", title:"Cải cách hành chính", desc:"Khu vực lưu văn bản, kế hoạch và tài liệu CCHC.", file:"#"},
-  {tag:"NGƯỜI CÓ CÔNG", title:"Hồ sơ người có công", desc:"Biểu mẫu và hướng dẫn nghiệp vụ cần tra cứu.", file:"#"},
-  {tag:"AN SINH XÃ HỘI", title:"Bảo trợ xã hội", desc:"Tài liệu phục vụ công tác trợ giúp xã hội.", file:"#"},
-  {tag:"CHUYỂN ĐỔI SỐ", title:"Công cụ số", desc:"Tài liệu, hướng dẫn và tiện ích công nghệ.", file:"#"},
-  {tag:"BIỂU MẪU", title:"Giấy đề nghị thanh toán", desc:"Thay liên kết này bằng file Word/PDF thực tế.", file:"#"},
-  {tag:"BIỂU MẪU", title:"Phiếu đề xuất", desc:"Thay liên kết này bằng file Word/PDF thực tế.", file:"#"}
+const data=[
+['Nội vụ','Cải cách hành chính','Kế hoạch, báo cáo và tài liệu cải cách hành chính.'],
+['Nội vụ','Tổ chức bộ máy và cán bộ','Văn bản, hướng dẫn và biểu mẫu công tác nội vụ.'],
+['Người có công','Chính sách người có công','Kho tài liệu phục vụ tra cứu nghiệp vụ người có công.'],
+['Người có công','Hồ sơ, biểu mẫu người có công','Nơi liên kết các biểu mẫu Word/PDF.'],
+['An sinh xã hội','Bảo trợ xã hội','Tài liệu về trợ giúp xã hội và bảo trợ xã hội.'],
+['An sinh xã hội','Trợ cấp và danh sách đối tượng','Mẫu biểu và hướng dẫn tại cơ sở.'],
+['Chuyển đổi số','Chuyển đổi số','Tài liệu, kế hoạch và hướng dẫn công nghệ.'],
+['Chuyển đổi số','Công cụ số','Tiện ích phục vụ công việc.']
 ];
-
-const grid = document.getElementById("documentGrid");
-const search = document.getElementById("searchInput");
-
-function renderDocuments(keyword=""){
-  const q = keyword.trim().toLowerCase();
-  const filtered = documents.filter(d => `${d.tag} ${d.title} ${d.desc}`.toLowerCase().includes(q));
-  grid.innerHTML = filtered.length ? filtered.map(d => `
-    <article class="document-card">
-      <span class="tag">${d.tag}</span>
-      <h3>${d.title}</h3>
-      <p>${d.desc}</p>
-      <a class="doc-link" href="${d.file}" onclick="if(this.getAttribute('href')==='#'){event.preventDefault();showNotice('Hãy thay dấu # bằng đường dẫn file thật của bạn.')}">Mở tài liệu →</a>
-    </article>`).join("") :
-    `<div class="document-card"><h3>Không tìm thấy</h3><p>Hãy thử từ khóa khác.</p></div>`;
-}
-renderDocuments();
-search.addEventListener("input", e => renderDocuments(e.target.value));
-
-function calculate(){
-  const input = document.getElementById("calcInput").value.trim();
-  const result = document.getElementById("calcResult");
-  if(!input){result.textContent="Kết quả: —";return;}
-  if(!/^[0-9+\-*/().,\s]+$/.test(input)){result.textContent="Kết quả: Chỉ nhập số và phép tính.";return;}
-  try{
-    const normalized = input.replaceAll(",","").replace(/\s+/g,"");
-    const value = Function(`"use strict"; return (${normalized})`)();
-    if(!Number.isFinite(value)) throw new Error();
-    result.textContent = "Kết quả: " + new Intl.NumberFormat("vi-VN").format(value);
-  }catch{result.textContent="Kết quả: Biểu thức không hợp lệ.";}
-}
-
-function showNotice(text){
-  const box=document.getElementById("notice");
-  box.textContent=text;box.classList.add("show");
-  clearTimeout(window.noticeTimer);
-  window.noticeTimer=setTimeout(()=>box.classList.remove("show"),3500);
-}
-
-function saveNotes(){
-  localStorage.setItem("personalNotes",document.getElementById("notes").value);
-  document.getElementById("saveStatus").textContent="Đã lưu trên máy này.";
-}
-document.getElementById("notes").value=localStorage.getItem("personalNotes")||"";
-
-const now=new Date();
-document.getElementById("today").textContent=now.toLocaleDateString("vi-VN",{weekday:"long",day:"2-digit",month:"2-digit",year:"numeric"});
-document.getElementById("year").textContent=now.getFullYear();
-document.getElementById("documentCount").textContent=documents.length;
-
-document.querySelector(".menu-toggle").addEventListener("click",()=>{
-  document.querySelector(".main-nav").classList.toggle("open");
-});
-document.querySelectorAll(".main-nav a").forEach(a=>a.addEventListener("click",()=>document.querySelector(".main-nav").classList.remove("open")));
+const docs=document.getElementById('docs'),cat=document.getElementById('cat'),find=document.getElementById('find'),globalSearch=document.getElementById('global');
+function render(q=''){q=q.toLowerCase();docs.innerHTML=data.filter(x=>(!cat.value||x[0]===cat.value)&&x.join(' ').toLowerCase().includes(q)).map(x=>`<article class="card"><span class="tag">${x[0]}</span><h3>${x[1]}</h3><p>${x[2]}</p><a class="link" href="#" onclick="msg('Chưa gắn file. Hãy thêm Word/PDF vào thư mục tai-lieu.');return false">Mở tài liệu →</a></article>`).join('')||'<article class="card"><h3>Không tìm thấy</h3><p>Hãy thử từ khóa khác.</p></article>'}
+cat.onchange=()=>render(find.value);find.oninput=()=>render(find.value);render();
+function quick(q){globalSearch.value=q;find.value=q;cat.value='';render(q);document.getElementById('van-ban').scrollIntoView()}
+function goSearch(){quick(globalSearch.value)}
+function msg(t){const n=document.getElementById('notice');n.textContent=t;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3000)}
+function calculate(){const s=document.getElementById('calc').value.replace(/,/g,'').replace(/\s/g,'');const out=document.getElementById('calcout');if(!/^[0-9+\-*/().]+$/.test(s)){out.textContent='Biểu thức không hợp lệ';return}try{out.textContent=new Intl.NumberFormat('vi-VN').format(Function('return('+s+')')())+' đồng'}catch{out.textContent='Biểu thức không hợp lệ'}}
+const one=['','một','hai','ba','bốn','năm','sáu','bảy','tám','chín'];
+function r3(n){let h=Math.floor(n/100),t=Math.floor(n/10)%10,u=n%10,s=h?one[h]+' trăm':'';if(t)s+=(s?' ':'')+(t===1?'mười':one[t]+' mươi')+(u===1&&t>1?' mốt':u===5&&t?' lăm':u?' '+one[u]:'');else if(u)s+=(h?' linh ':' ')+one[u];return s.trim()}
+function money(){let raw=document.getElementById('money').value.replace(/\D/g,'');let n=Number(raw);if(!raw||!Number.isSafeInteger(n)){document.getElementById('moneyout').textContent='Hãy nhập số tiền hợp lệ';return}if(n===0){document.getElementById('moneyout').textContent='Không đồng';return}let u=['','nghìn','triệu','tỷ'],p=[],i=0;while(n){let x=n%1000;if(x)p.unshift(r3(x)+(u[i]?' '+u[i]:''));n=Math.floor(n/1000);i++}document.getElementById('moneyout').textContent=p.join(' ')+' đồng'}
+document.getElementById('today').textContent=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});document.getElementById('year').textContent=new Date().getFullYear();document.getElementById('menu').onclick=()=>document.getElementById('nav').classList.toggle('open');
