@@ -36,7 +36,7 @@ function card(x) {
 function render(q = '') {
   if (!docs) return;
   const keyword = normalize(q);
-  const source = Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []));
+  const source = Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []);
   const result = source.filter(x => {
     const categoryOK = !cat?.value || x.category === cat.value;
     const typeOK = !typeFilter?.value || x.type === typeFilter.value;
@@ -69,7 +69,7 @@ function renderRecent() {
     '<div class="empty-state">Chưa có tài liệu. Hãy bổ sung dữ liệu vào data.js.</div>';
 }
 function updateStats() {
-  const source = Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []));
+  const source = Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []);
   const total = source.length;
   const formTotal = source.filter(x => x.type === 'Biểu mẫu').length;
   const docTotal = source.filter(x => x.type === 'Văn bản').length;
