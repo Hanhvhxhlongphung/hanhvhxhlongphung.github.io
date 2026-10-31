@@ -39,11 +39,15 @@ if (!isConfigured) {
         updatedAt: value.updatedAt || null
       };
     });
-    window.libraryDocuments = records;
-    window.dispatchEvent(new CustomEvent("library-data-updated", {
-      detail: { documents: records, source: "firestore" }
-    }));
-    console.info("[Long Phung] Đã tải", records.length, "tài liệu từ Firestore.");
+    if (records.length > 0) {
+      window.libraryDocuments = records;
+      window.dispatchEvent(new CustomEvent("library-data-updated", {
+        detail: { documents: records, source: "firestore" }
+      }));
+      console.info("[Long Phung] Đã tải", records.length, "tài liệu từ Firestore.");
+    } else {
+      console.info("[Long Phung] Firestore chưa có bản ghi công khai; giữ dữ liệu dự phòng data.js để tránh làm trống thư viện.");
+    }
   } catch (error) {
     console.error("[Long Phung] Không tải được Firestore; tiếp tục dùng data.js.", error);
     window.dispatchEvent(new CustomEvent("firebase-load-error", {
