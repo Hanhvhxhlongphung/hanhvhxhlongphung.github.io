@@ -1,0 +1,42 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function role() {
+      return signedIn()
+        && firestore.exists(/databases/(default)/documents/users/$(request.auth.uid))
+        ? firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role
+        : "anonymous";
+    }
+    function canEdit() {
+      return signedIn() && role() in ["admin", "editor"];
+    }
+    function isAdmin() {
+      return signedIn() && role() == "admin";
+    }
+
+    // Publicly downloadable files must belong to a published document.
+    match /documents/{documentId}/{fileName} {
+      allow read: if firestore.exists(/databases/(default)/documents/documents/$(documentId))
+        && firestore.get(/databases/(default)/documents/documents/$(documentId)).data.status == "published";
+
+      // Only admin/editor can upload. Limit size and accepted formats.
+      allow create, update: if canEdit()
+        && request.resource.size < 20 * 1024 * 1024
+        && request.resource.contentType in [
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ];
+      allow delete: if isAdmin();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
