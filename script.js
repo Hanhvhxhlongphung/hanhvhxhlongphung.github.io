@@ -36,7 +36,7 @@ function card(x) {
 function render(q = '') {
   if (!docs) return;
   const keyword = normalize(q);
-  const source = Array.isArray(documents) ? documents : [];
+  const source = Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []));
   const result = source.filter(x => {
     const categoryOK = !cat?.value || x.category === cat.value;
     const typeOK = !typeFilter?.value || x.type === typeFilter.value;
@@ -50,7 +50,7 @@ function render(q = '') {
 }
 function renderForms() {
   if (!forms) return;
-  const result = (Array.isArray(documents) ? documents : []).filter(x => x.type === 'Biểu mẫu');
+  const result = (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []))).filter(x => x.type === 'Biểu mẫu');
   forms.innerHTML = result.length ? result.map((x, i) => `
     <div class="form-row">
       <span class="form-number">${String(i + 1).padStart(2, '0')}</span>
@@ -61,7 +61,7 @@ function renderForms() {
 function renderRecent() {
   const host = document.getElementById('recentDocs');
   if (!host) return;
-  const source = (Array.isArray(documents) ? documents : []).slice(0, 3);
+  const source = (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []))).slice(0, 3);
   host.innerHTML = source.length ? source.map(x => `
     <article class="recent-card"><div class="doc-meta"><span class="tag">${escapeHTML(x.category)}</span><span class="filetype">${escapeHTML(x.type)}</span></div>
     <h3>${escapeHTML(x.name)}</h3><p>${escapeHTML(x.description || '')}</p>
@@ -69,7 +69,7 @@ function renderRecent() {
     '<div class="empty-state">Chưa có tài liệu. Hãy bổ sung dữ liệu vào data.js.</div>';
 }
 function updateStats() {
-  const source = Array.isArray(documents) ? documents : [];
+  const source = Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(window.libraryDocuments) ? window.libraryDocuments : (Array.isArray(documents) ? documents : []));
   const total = source.length;
   const formTotal = source.filter(x => x.type === 'Biểu mẫu').length;
   const docTotal = source.filter(x => x.type === 'Văn bản').length;
@@ -210,3 +210,13 @@ renderForms();
 renderRecent();
 updateDate();
 setupNavigation();
+
+// Firebase integration: when Firestore returns published records, refresh the legacy UI.
+window.addEventListener('library-data-updated', event => {
+  if (!Array.isArray(event.detail?.documents)) return;
+  window.libraryDocuments = event.detail.documents;
+  updateStats();
+  render(find?.value || globalSearch?.value || '');
+  renderForms();
+  renderRecent();
+});
