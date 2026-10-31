@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function userRole() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        : "anonymous";
+    }
+    function isAdmin() {
+      return signedIn() && userRole() == "admin";
+    }
+    function canEdit() {
+      return signedIn() && userRole() in ["admin", "editor"];
+    }
+
+    match /documents/{documentId} {
+      // Public website can list published documents; editors/admins can inspect all records.
+      allow get, list: if resource.data.status == "published" || canEdit();
+      allow create: if canEdit()
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.status in ["draft", "published", "archived"]
+        && request.resource.data.legalStatus in ["in_force", "expired", "amended", "replaced", "not_applicable"];
+      allow update: if canEdit()
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.status in ["draft", "published", "archived"]
+        && request.resource.data.legalStatus in ["in_force", "expired", "amended", "replaced", "not_applicable"];
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow get: if signedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+      // Initial admin profile is created manually in Firebase Console by the project owner.
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if canEdit();
+      allow delete: if isAdmin();
+    }
+
+    match /auditLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if canEdit()
+        && request.resource.data.actorUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
