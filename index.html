@@ -1,7 +1,158 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Thư viện nghiệp vụ cá nhân</title><link rel="stylesheet" href="style.css"></head><body>
-<header><div class="wrap nav"><a class="brand" href="#home"><span class="logo">LP</span><span><b>THƯ VIỆN NGHIỆP VỤ</b><small>Nội vụ • An sinh xã hội • Người có công • Chuyển đổi số</small></span></a><button id="menu">☰</button><nav id="nav"><a href="#home">Trang chủ</a><a href="#van-ban">Tài liệu</a><a href="#bieu-mau">Biểu mẫu</a><a href="#cong-cu">Công cụ</a></nav></div></header>
-<main id="home"><section class="hero"><div class="wrap hero-grid"><div><label>THƯ VIỆN CÁ NHÂN • PHIÊN BẢN 3.0</label><h1>Kho tài liệu nghiệp vụ của tôi</h1><p>Tìm kiếm, phân loại và tải nhanh văn bản, biểu mẫu phục vụ công việc.</p><div class="search"><input id="global" placeholder="Tìm tên tài liệu..."><button onclick="goSearch()">Tìm kiếm</button></div><div class="chips"><button onclick="quick('Nội vụ')">Nội vụ</button><button onclick="quick('Người có công')">Người có công</button><button onclick="quick('An sinh xã hội')">An sinh xã hội</button><button onclick="quick('Chuyển đổi số')">Chuyển đổi số</button></div></div><aside><b>● HỆ THỐNG ĐANG HOẠT ĐỘNG</b><strong id="totalCount">04 <small>tài liệu</small></strong><hr><strong>04 <small>nhóm chuyên môn</small></strong><p>Website tĩnh, miễn phí, cập nhật bằng GitHub.</p></aside></div></section>
-<section class="section" id="van-ban"><div class="wrap"><div class="head"><div><label>01 • TRA CỨU</label><h2>Kho tài liệu</h2></div><div class="filters"><select id="typeFilter"><option value="">Tất cả loại</option><option>Văn bản</option><option>Biểu mẫu</option></select><select id="cat"><option value="">Tất cả lĩnh vực</option><option>Nội vụ</option><option>Người có công</option><option>An sinh xã hội</option><option>Chuyển đổi số</option></select><input id="find" placeholder="Tìm tài liệu..."></div></div><div id="docs" class="cards"></div></div></section>
-<section class="section soft" id="bieu-mau"><div class="wrap"><label>02 • MẪU DÙNG</label><h2>Biểu mẫu</h2><div id="forms" class="list"></div></div></section>
-<section class="section" id="cong-cu"><div class="wrap"><label>03 • TIỆN ÍCH</label><h2>Công cụ hành chính</h2><div class="tools"><article><h3>Đọc số tiền bằng chữ</h3><input id="money" placeholder="45000000"><button onclick="money()">Đọc số</button><div id="moneyout" class="result">—</div></article><article><h3>Máy tính kinh phí</h3><input id="calc" placeholder="5000000+1000000"><button onclick="calculate()">Tính</button><div id="calcout" class="result">—</div></article><article><h3>Ngày hiện tại</h3><div id="today" class="date"></div></article></div></div></section>
-</main><footer><div class="wrap"><b>THƯ VIỆN NGHIỆP VỤ CÁ NHÂN</b><span id="year"></span></div></footer><div id="notice"></div><script src="data.js"></script><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17365d">
+  <meta name="description" content="Thư viện nghiệp vụ Long Phụng - Kho văn bản, biểu mẫu, công cụ và hướng dẫn nghiệp vụ cấp xã.">
+  <title>Thư viện nghiệp vụ Long Phụng | Digital Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4.0.1">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="Trang chủ Thư viện nghiệp vụ Long Phụng">
+        <span class="brand-mark">LP</span>
+        <span class="brand-copy"><strong>THƯ VIỆN NGHIỆP VỤ</strong><small>LONG PHỤNG DIGITAL</small></span>
+      </a>
+      <div class="sidebar-caption">KHÔNG GIAN LÀM VIỆC</div>
+      <nav class="side-nav" aria-label="Điều hướng chính">
+        <a class="nav-link active" href="#home" data-section="home"><span class="nav-icon">▦</span><span>Tổng quan</span></a>
+        <a class="nav-link" href="#van-ban" data-section="van-ban"><span class="nav-icon">▤</span><span>Kho văn bản</span><span class="nav-count" id="navDocCount">04</span></a>
+        <a class="nav-link" href="#bieu-mau" data-section="bieu-mau"><span class="nav-icon">▧</span><span>Kho biểu mẫu</span></a>
+        <a class="nav-link" href="#nghiep-vu" data-section="nghiep-vu"><span class="nav-icon">▣</span><span>Nghiệp vụ chuyên môn</span></a>
+        <a class="nav-link" href="#cong-cu" data-section="cong-cu"><span class="nav-icon">⌗</span><span>Công cụ nghiệp vụ</span></a>
+        <a class="nav-link" href="#quy-trinh" data-section="quy-trinh"><span class="nav-icon">☷</span><span>Quy trình công việc</span></a>
+        <a class="nav-link" href="#tro-ly-ai" data-section="tro-ly-ai"><span class="nav-icon">✧</span><span>Trợ lý AI</span><span class="soon">Sắp có</span></a>
+        <a class="nav-link" href="#bao-cao" data-section="bao-cao"><span class="nav-icon">▥</span><span>Báo cáo & thống kê</span></a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-caption">HỆ THỐNG</div>
+        <a class="nav-link" href="#quan-tri" data-section="quan-tri"><span class="nav-icon">⚙</span><span>Quản trị hệ thống</span><span class="soon">GĐ 3</span></a>
+        <div class="sidebar-status"><span class="status-dot"></span><span><strong>Hệ thống đang hoạt động</strong><small>Phiên bản giao diện 4.0.1</small></span></div>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menu" aria-label="Mở menu" aria-expanded="false">☰</button>
+        <div class="breadcrumb"><span>Long Phụng</span><b>/</b><strong id="currentPage">Tổng quan</strong></div>
+        <div class="topbar-actions">
+          <div class="today-chip"><span class="today-dot"></span><span id="today"></span></div>
+          <div class="user-chip"><span class="user-avatar">LP</span><span class="user-label"><strong>Không gian cá nhân</strong><small>Chế độ xem</small></span></div>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="page-section" id="home">
+          <div class="welcome-row">
+            <div>
+              <div class="eyebrow">DIGITAL WORKSPACE · LONG PHỤNG</div>
+              <h1>Không gian làm việc nghiệp vụ</h1>
+              <p class="lead">Tra cứu văn bản, sử dụng biểu mẫu và khai thác công cụ hỗ trợ công việc tại cơ sở.</p>
+            </div>
+            <div class="welcome-date"><span>HÔM NAY</span><strong id="todayLong">--</strong></div>
+          </div>
+
+          <div class="global-search">
+            <span class="search-symbol">⌕</span>
+            <input id="global" type="search" placeholder="Tìm văn bản, biểu mẫu, lĩnh vực nghiệp vụ..." autocomplete="off">
+            <button type="button" onclick="goSearch()">Tìm kiếm <span>→</span></button>
+          </div>
+          <div class="quick-tags">
+            <span>Tìm nhanh:</span>
+            <button type="button" onclick="quick('Nội vụ')">Nội vụ</button>
+            <button type="button" onclick="quick('Người có công')">Người có công</button>
+            <button type="button" onclick="quick('An sinh xã hội')">An sinh xã hội</button>
+            <button type="button" onclick="quick('Chuyển đổi số')">Chuyển đổi số</button>
+          </div>
+
+          <div class="stat-grid">
+            <article class="stat-card"><div class="stat-icon blue">▤</div><div><span>Tổng tài liệu</span><strong id="totalCount">04</strong><small>Trong thư viện hiện tại</small></div></article>
+            <article class="stat-card"><div class="stat-icon green">▧</div><div><span>Biểu mẫu</span><strong id="formCount">03</strong><small>Mẫu có thể tải xuống</small></div></article>
+            <article class="stat-card"><div class="stat-icon amber">▣</div><div><span>Lĩnh vực</span><strong id="categoryCount">04</strong><small>Nhóm nghiệp vụ chính</small></div></article>
+            <article class="stat-card"><div class="stat-icon violet">⌗</div><div><span>Công cụ</span><strong>03</strong><small>Tiện ích đang sử dụng</small></div></article>
+          </div>
+
+          <div class="section-heading"><div><div class="eyebrow">TRUY CẬP NHANH</div><h2>Danh mục nghiệp vụ</h2></div><span class="muted-note">Chọn lĩnh vực để tra cứu tài liệu</span></div>
+          <div class="category-grid">
+            <button class="category-card" type="button" onclick="quick('Nội vụ')"><span class="category-icon navy">NV</span><span><strong>Nội vụ</strong><small>Tổ chức bộ máy, cán bộ, công chức</small></span><b>→</b></button>
+            <button class="category-card" type="button" onclick="quick('Người có công')"><span class="category-icon teal">NCC</span><span><strong>Người có công</strong><small>Chính sách ưu đãi và hồ sơ</small></span><b>→</b></button>
+            <button class="category-card" type="button" onclick="quick('An sinh xã hội')"><span class="category-icon orange">AS</span><span><strong>An sinh xã hội</strong><small>Bảo trợ và trợ giúp xã hội</small></span><b>→</b></button>
+            <button class="category-card" type="button" onclick="quick('Chuyển đổi số')"><span class="category-icon purple">CĐS</span><span><strong>Chuyển đổi số</strong><small>Công nghệ và cải cách hành chính</small></span><b>→</b></button>
+          </div>
+
+          <div class="section-heading"><div><div class="eyebrow">CẬP NHẬT TỪ THƯ VIỆN</div><h2>Tài liệu mới nhất</h2></div><a class="text-link" href="#van-ban">Xem toàn bộ tài liệu →</a></div>
+          <div id="recentDocs" class="recent-grid"></div>
+        </section>
+
+        <section class="page-section" id="van-ban">
+          <div class="page-title-row"><div><div class="eyebrow">01 · TRA CỨU & KHAI THÁC</div><h1>Kho văn bản và tài liệu</h1><p class="lead">Tìm kiếm theo tên, nội dung mô tả, lĩnh vực hoặc loại tài liệu.</p></div></div>
+          <div class="filter-panel">
+            <div class="filter-search"><span>⌕</span><input id="find" type="search" placeholder="Nhập tên hoặc từ khóa tài liệu..."></div>
+            <select id="typeFilter" aria-label="Lọc theo loại"><option value="">Tất cả loại tài liệu</option><option>Văn bản</option><option>Biểu mẫu</option></select>
+            <select id="cat" aria-label="Lọc theo lĩnh vực"><option value="">Tất cả lĩnh vực</option><option>Nội vụ</option><option>Người có công</option><option>An sinh xã hội</option><option>Chuyển đổi số</option></select>
+          </div>
+          <div class="results-summary"><span id="resultCount">Đang tải tài liệu...</span><span class="muted-note">Dữ liệu từ thư viện hiện tại</span></div>
+          <div id="docs" class="document-grid"></div>
+        </section>
+
+        <section class="page-section" id="bieu-mau">
+          <div class="page-title-row"><div><div class="eyebrow">02 · MẪU DÙNG TRONG CÔNG VIỆC</div><h1>Kho biểu mẫu</h1><p class="lead">Danh mục biểu mẫu Word, Excel, PDF được phân loại theo lĩnh vực.</p></div></div>
+          <div id="forms" class="form-list"></div>
+        </section>
+
+        <section class="page-section" id="nghiep-vu">
+          <div class="page-title-row"><div><div class="eyebrow">03 · LĨNH VỰC CÔNG TÁC</div><h1>Nghiệp vụ chuyên môn</h1><p class="lead">Không gian tập hợp tài liệu và hướng dẫn theo từng nhóm nhiệm vụ.</p></div></div>
+          <div class="module-grid">
+            <article class="module-card"><span class="module-code">01</span><h3>Nội vụ</h3><p>Tổ chức bộ máy, vị trí việc làm, cán bộ, công chức, thi đua và cải cách hành chính.</p><button onclick="quick('Nội vụ')">Tra cứu tài liệu →</button></article>
+            <article class="module-card"><span class="module-code">02</span><h3>Người có công</h3><p>Chính sách ưu đãi, hồ sơ đối tượng, chế độ và công tác chi trả.</p><button onclick="quick('Người có công')">Tra cứu tài liệu →</button></article>
+            <article class="module-card"><span class="module-code">03</span><h3>An sinh xã hội</h3><p>Bảo trợ xã hội, trợ giúp xã hội, người cao tuổi và các chính sách liên quan.</p><button onclick="quick('An sinh xã hội')">Tra cứu tài liệu →</button></article>
+            <article class="module-card"><span class="module-code">04</span><h3>Khoa học công nghệ & chuyển đổi số</h3><p>Ứng dụng công nghệ, dữ liệu số, kỹ năng số và cải cách hành chính.</p><button onclick="quick('Chuyển đổi số')">Tra cứu tài liệu →</button></article>
+          </div>
+        </section>
+
+        <section class="page-section" id="cong-cu">
+          <div class="page-title-row"><div><div class="eyebrow">04 · TIỆN ÍCH HỖ TRỢ</div><h1>Công cụ nghiệp vụ</h1><p class="lead">Các tiện ích tính toán và xử lý nhanh phục vụ công việc thường ngày.</p></div></div>
+          <div class="tool-grid">
+            <article class="tool-card"><div class="tool-heading"><span class="tool-icon blue">₫</span><div><h3>Đọc số tiền bằng chữ</h3><p>Chuyển số tiền thành chữ tiếng Việt.</p></div></div><label for="money">Số tiền (VNĐ)</label><input id="money" inputmode="numeric" placeholder="Ví dụ: 45000000"><button class="primary-button" onclick="money()">Đọc số tiền</button><div id="moneyout" class="tool-result" aria-live="polite">Kết quả sẽ hiển thị tại đây.</div></article>
+            <article class="tool-card"><div class="tool-heading"><span class="tool-icon green">∑</span><div><h3>Máy tính kinh phí</h3><p>Thực hiện phép tính số học cơ bản.</p></div></div><label for="calc">Biểu thức tính</label><input id="calc" inputmode="decimal" placeholder="Ví dụ: 5000000 + 1000000"><button class="primary-button" onclick="calculate()">Tính kết quả</button><div id="calcout" class="tool-result" aria-live="polite">Kết quả sẽ hiển thị tại đây.</div></article>
+            <article class="tool-card info-tool"><div class="tool-heading"><span class="tool-icon amber">◷</span><div><h3>Lịch và thời gian</h3><p>Ngày hiện tại theo múi giờ Việt Nam.</p></div></div><div class="calendar-date" id="todayTool">--</div><div class="calendar-note">Thời gian hiển thị theo thiết bị đang truy cập.</div></article>
+          </div>
+        </section>
+
+        <section class="page-section" id="quy-trinh">
+          <div class="page-title-row"><div><div class="eyebrow">05 · HƯỚNG DẪN THỰC HIỆN</div><h1>Quy trình công việc</h1><p class="lead">Khu vực phát triển thư viện quy trình, thành phần hồ sơ và hướng dẫn nghiệp vụ.</p></div></div>
+          <div class="notice-panel"><strong>Đang chuẩn bị dữ liệu cho phân hệ quy trình</strong><p>Giai đoạn tiếp theo sẽ bổ sung quy trình theo từng lĩnh vực, căn cứ pháp lý, thành phần hồ sơ, trình tự xử lý và trách nhiệm của từng bộ phận.</p></div>
+        </section>
+
+        <section class="page-section" id="tro-ly-ai">
+          <div class="page-title-row"><div><div class="eyebrow">06 · TRA CỨU THÔNG MINH</div><h1>Trợ lý AI nghiệp vụ</h1><p class="lead">Định hướng xây dựng trợ lý tra cứu có dẫn nguồn và kiểm tra căn cứ pháp lý.</p></div></div>
+          <div class="notice-panel ai-panel"><span class="ai-mark">✧</span><div><strong>Phân hệ AI sẽ được triển khai ở giai đoạn sau</strong><p>Trợ lý sẽ hỗ trợ tìm kiếm tài liệu trong thư viện, tóm tắt nội dung, gợi ý quy trình và trích dẫn nguồn. Kết quả pháp lý phải được đối chiếu với văn bản chính thức còn hiệu lực trước khi áp dụng.</p><span class="phase-label">DỰ KIẾN GIAI ĐOẠN 4</span></div></div>
+        </section>
+
+        <section class="page-section" id="bao-cao">
+          <div class="page-title-row"><div><div class="eyebrow">07 · THEO DÕI THƯ VIỆN</div><h1>Báo cáo và thống kê</h1><p class="lead">Thống kê dữ liệu tài liệu đang được lưu trong phiên bản hiện tại.</p></div></div>
+          <div class="stat-grid report-stats"><article class="stat-card"><div><span>Tổng tài liệu</span><strong id="reportTotal">04</strong></div></article><article class="stat-card"><div><span>Văn bản</span><strong id="reportDocs">01</strong></div></article><article class="stat-card"><div><span>Biểu mẫu</span><strong id="reportForms">03</strong></div></article><article class="stat-card"><div><span>Lĩnh vực</span><strong id="reportCats">04</strong></div></article></div>
+          <div class="notice-panel"><strong>Lưu ý về số liệu</strong><p>Thống kê hiện được tính từ danh mục tài liệu tĩnh data.js. Sau khi kết nối Firebase, số liệu sẽ được lấy tự động từ cơ sở dữ liệu.</p></div>
+        </section>
+
+        <section class="page-section" id="quan-tri">
+          <div class="page-title-row"><div><div class="eyebrow">08 · QUẢN LÝ HỆ THỐNG</div><h1>Quản trị hệ thống</h1><p class="lead">Khu vực quản lý tài khoản, phân quyền, tài liệu và cấu hình.</p></div></div>
+          <div class="notice-panel"><strong>Phân hệ quản trị chưa được kích hoạt</strong><p>Đăng nhập, ba nhóm quyền Quản trị – Biên tập – Người xem và các thao tác dữ liệu sẽ được xây dựng sau khi cấu hình Firebase Authentication và Security Rules.</p><span class="phase-label">DỰ KIẾN GIAI ĐOẠN 3</span></div>
+        </section>
+
+        <footer class="site-footer"><div><strong>THƯ VIỆN NGHIỆP VỤ LONG PHỤNG</strong><span>Không gian hỗ trợ tra cứu và khai thác tài liệu nghiệp vụ.</span></div><span>Phiên bản 4.0.1 · <span id="year"></span></span></footer>
+      </main>
+    </div>
+  </div>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <script src="data.js?v=4.0.1"></script>
+  <script src="script.js?v=4.0.2"></script>
+  <script type="module" src="firebase.js?v=4.0.2"></script>
+</body>
+</html>
